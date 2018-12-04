@@ -55,7 +55,7 @@ router.get("/logout", (req, res, next) => {
 
 router.get("/all-users", async (req, res, next) => {
   var keyword = req.query.keyword || ""
-  console.log("keyword", keyword)
+  // console.log("keyword", keyword)
   let users
   if (!keyword) {
     // if not searching, return all cars
@@ -65,7 +65,7 @@ router.get("/all-users", async (req, res, next) => {
     users = await User.find({ $text: { $search: keyword } })
   }
 
-  // console.log("users", users)
+  // // console.log("users", users)
   let nouser = true
   if (users && users.length >= 1) {
     nouser = false

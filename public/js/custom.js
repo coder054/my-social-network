@@ -20,13 +20,13 @@ $(function() {
     // we take infomation of current logined user from input hidden
     // if idOfCurrentLoginUser == idOfUserMakeTweet or idOfUserMakeTweet in the list of following user of current logined user, show tweet
     // otherwise do nothing
-    console.log("on incomingTweet data:", data)
+    // console.log("on incomingTweet data:", data)
     var idOfUserMakeTweet = data.user._id
     var listOfFollowing = $("#listOfFollowing")
       .val()
       .split(",")
     var idOfCurrentLoginUser = $("#idOfCurrentLoginUser").val()
-    console.log("listOfFollowing", listOfFollowing)
+    // console.log("listOfFollowing", listOfFollowing)
 
     var inListOfFollowing = false
     listOfFollowing.forEach(element => {

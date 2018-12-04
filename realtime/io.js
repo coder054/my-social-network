@@ -1,28 +1,27 @@
-const async = require('async')
-const Tweet = require('../models/tweet');
-const User = require('../models/user');
+const async = require("async")
+const Tweet = require("../models/tweet")
+const User = require("../models/user")
 
-const { promisify } = require('util')
+const { promisify } = require("util")
 
-
-module.exports = function (io) {
-  io.on('connection', function (socket) {
-    console.log('connected')
+module.exports = function(io) {
+  io.on("connection", function(socket) {
+    // console.log('connected')
     var user = socket.request.user
     if (user) {
-      // console.log(user.name) // third
+      // // console.log(user.name) // third
     }
-    socket.on('tweet', async function (data) {
-      console.log('on tweet data:', data)
+    socket.on("tweet", async function(data) {
+      // console.log('on tweet data:', data)
 
       // save tweet content (with owner info) to to tweet collection
       // push tweet Id to field: tweets of user collection
-      // emit 
+      // emit
       try {
         const tweet = new Tweet({
           owner: user._id,
           content: data.content
-        });
+        })
 
         let newTweet = await tweet.save()
 
@@ -35,15 +34,14 @@ module.exports = function (io) {
           }
         )
 
-        io.emit('incomingTweet', ({ data, user, newTweetId: newTweet._id }))
+        io.emit("incomingTweet", { data, user, newTweetId: newTweet._id })
       } catch (error) {
-        console.log(error)
+        // console.log(error)
       }
     })
 
-
-    socket.on('delete-tweet', async function (data) {
-      io.emit('delete-tweet-to-client', ({ data }))
+    socket.on("delete-tweet", async function(data) {
+      io.emit("delete-tweet-to-client", { data })
     })
   })
 }
