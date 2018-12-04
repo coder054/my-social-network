@@ -1,17 +1,14 @@
-
-
 .media-object {
   width: 40px;
 }
-.media{
-/*   border-top: 1px solid #dedede;  */
+
+.media {
+  /*   border-top: 1px solid #dedede;  */
   border-bottom: 1px solid #dedede;
   position: relative;
 }
 
-
-
-.remove-icon{
+.remove-icon {
   position: absolute;
   right: 20px;
   top: -3px;
@@ -22,7 +19,7 @@
   cursor: pointer;
 }
 
-.tweet-delete-success{
+.tweet-delete-success {
   opacity: 0;
   position: fixed;
   width: 50%;
@@ -33,6 +30,16 @@
   transition: all 1.8s ease;
 }
 
-.tweet-delete-success.show{
+.tweet-delete-success.show {
   opacity: 1;
+}
+
+.col-md-6 {
+  margin-top: 30px;
+}
+
+.form-inline {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
 }

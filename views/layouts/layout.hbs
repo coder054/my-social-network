@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,15 +18,16 @@
     <link href="/css/starter-template.css" rel="stylesheet">
     <link href="/css/custom.css" rel="stylesheet">
 
-  </head>
+</head>
 
-  <body>
+<body>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
 
     {{> navbar}}
 
     <div class="container">
 
-      {{{ body }}}
+        {{{ body }}}
 
     </div><!-- /.container -->
 
@@ -36,9 +37,11 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/custom.js"></script>
     <script src="/js/follow.js"></script>
     <script src="/js/deleteTweet.js"></script>
-  </body>
+</body>
+
 </html>

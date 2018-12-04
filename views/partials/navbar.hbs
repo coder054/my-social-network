@@ -11,6 +11,7 @@
     </div>
     <ul class="nav navbar-nav navbar-right">
       {{#if userAllView }}
+        <li><a href="/all-users"> All Users </a></li>
         <li><a href="/user/{{ userAllView._id }}">{{ userAllView.name }}</a></li>
         <li><a href="/logout">Logout</a></li>
 
