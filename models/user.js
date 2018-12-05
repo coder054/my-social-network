@@ -12,7 +12,10 @@ const UserSchema = new Schema({
   tweets: [
     { tweet: { type: Schema.Types.ObjectId, ref: "Tweet" } } // mac dinh tao user thi tweets se la []
   ],
+  likedTweets: [{ type: Schema.Types.ObjectId, ref: "Tweet" }],
+  retweets: [{ type: Schema.Types.ObjectId, ref: "Tweet" }],
   following: [{ type: Schema.Types.ObjectId, ref: "User" }],
+
   followers: [{ type: Schema.Types.ObjectId, ref: "User" }]
 })
 

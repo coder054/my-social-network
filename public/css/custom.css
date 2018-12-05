@@ -3,14 +3,18 @@
 }
 
 .media {
-  /*   border-top: 1px solid #dedede;  */
+  border-top: 1px solid #dedede;
   border-bottom: 1px solid #dedede;
   position: relative;
+  padding: 12px;
+  margin-top: -1px;
+  padding-bottom: 2px;;
 }
 
 .remove-icon {
+  border: 1px solid aqua;
   position: absolute;
-  right: 20px;
+  right: 0px;
   top: -3px;
   color: #ccc;
   font-weight: normal;
@@ -43,3 +47,72 @@
   justify-content: center;
   margin: 20px auto;
 }
+
+
+
+.col-md-offset-3.col-md-6{
+  background-color: white;
+  
+  padding: 0;
+}
+
+body, html, p, div{
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body{
+   background-color: #E6ECF0;
+}
+
+.glyphicon{
+  color: rgb(101, 119, 134);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-right: 30px;
+  font-weight: 300;
+}
+
+span.remove-icon{
+  margin-right: unset;
+}
+
+.glyphicon-retweet:hover{
+  color: rgb(23, 191, 99);
+}
+
+.glyphicon-heart-empty:hover{
+  color: rgb(224, 36, 94);
+}
+
+.glyphicon-heart.liked{
+  color: rgb(224, 36, 94);
+  
+}
+
+
+
+
+.media-left img{
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+}
+
+.media-body h5{
+  color: rgb(20, 23, 26);
+  font-weight: bold;
+  font-size: 14px;
+  display: inline-block;
+}
+.media-body{
+  transform: translateY(-3px);
+}
+
+
+.media-body h5:hover{
+  color: RGB(29, 161, 242);
+}
+
+
+
+

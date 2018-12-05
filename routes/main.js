@@ -5,17 +5,31 @@ const Tweet = require("../models/tweet")
 
 router.get("/", async (req, res, next) => {
   if (req.user) {
-    // // console.log('req.user', req.user)
+    console.log("type of req.user._id", typeof req.user._id)
     var listt = [req.user._id, ...req.user.following]
     try {
       let tweets = await Tweet.find({ owner: listt })
         .sort("-created")
         .populate("owner")
+        .populate("usersLike")
         .lean()
         .exec()
 
       let currentUserId = req.user._id
+      console.log("currentUserId", currentUserId)
       tweets.forEach(function(val, index) {
+        console.log("val.usersLike", val.usersLike)
+
+        val.liked = false
+        if (typeof val.usersLike === "undefined") {
+        } else {
+          val.usersLike.forEach(item => {
+            if (item._id === currentUserId || item._id.equals(currentUserId)) {
+              val.liked = true
+            }
+          })
+        }
+
         if (
           val.owner._id == currentUserId ||
           val.owner._id.equals(currentUserId)
@@ -26,6 +40,7 @@ router.get("/", async (req, res, next) => {
         }
       })
 
+      console.log("TWEETS", tweets)
       res.render("main/home", { tweets })
     } catch (error) {
       next(error)
@@ -165,6 +180,64 @@ router.delete("/tweet/:id", async (req, res, next) => {
   }
 
   res.json("delete success")
+})
+
+// like a tweet
+router.post("/liketweet/:id", async (req, res, next) => {
+  let idCurrentUser = req.user._id
+  let idOfTweet = req.params.id
+
+  try {
+    let dsfds = await User.update(
+      {
+        _id: idCurrentUser,
+        likedTweets: { $ne: idOfTweet } // trong array likedTweets khong chua idOfTweet
+      },
+      { $push: { likedTweets: idOfTweet } }
+    )
+
+    let dsfdsfdsfds = await Tweet.update(
+      {
+        _id: idOfTweet,
+        usersLike: { $ne: idCurrentUser } // trong array usersLike khong chua idCurrentUser
+      },
+      { $push: { usersLike: idCurrentUser } }
+    )
+  } catch (error) {
+    next(error)
+  }
+
+  res.json("like success")
+})
+
+// unlike a tweet
+router.post("/unliketweet/:id", async (req, res, next) => {
+  let idCurrentUser = req.user._id
+  let idOfTweet = req.params.id
+
+  try {
+    let updatedUser = await User.update(
+      { _id: req.user._id },
+      {
+        $pull: {
+          likedTweets: idOfTweet._id
+        }
+      }
+    )
+
+    let updatedTweet = await Tweet.update(
+      { _id: idOfTweet },
+      {
+        $pull: {
+          usersLike: idCurrentUser
+        }
+      }
+    )
+  } catch (error) {
+    next(error)
+  }
+
+  res.json("unlike success")
 })
 
 module.exports = router
