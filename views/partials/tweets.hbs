@@ -1,6 +1,6 @@
 <div id="tweets">
     {{#each tweets}}
-
+    
     <div class="media" id="tweet-{{_id}}">
 
       {{#if isTweetOfCurrentUser}}
@@ -13,7 +13,7 @@
         </a>
       </div>
       <div class="media-body dropdown">
-        <a href="/user/{{owner._id}}"><h5 class="media-heading">{{ owner.name }}</h5> </a>
+        <a href="/user/{{owner._id}}"><h5 class="media-heading">{{ owner.name }} </h5> </a>
         <p> {{content}} </p>
         <div class="likes-and-retweet-wrapper">
           
@@ -26,7 +26,7 @@
           <span class="glyphicon glyphicon-comment">  </span>
         </div>
 
-        {{> comments}}  
+        {{> comments userAllView=../userAllView}}  
 
 
       </div>
@@ -35,13 +35,14 @@
 
     <div class="media">
       <div class="media-left">
-        <a href="/user/{{owner._id}}">
+        <a href="/user/{{userAllView._id}}">
           <img class="media-object" src="{{ userAllView.photo }}" />
         </a>
       </div>
       <div class="media-body">
-        <h4 class="media-heading">{{ userAllView.name }}</h4>
+        <h4 class="media-heading">{{ userAllView.name }} </h4>
         <p> {{ userAllView.name }} Joined Twitter! </p>
       </div>
     </div>
+
   </div>

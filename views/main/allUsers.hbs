@@ -13,7 +13,7 @@
   
   <ul class="list-user-wrapper list-group">
     {{#each users}}
-      <li class="one-user list-group-item"> <a href="/user/{{_id}}"> {{ name }} </a> </li>
+      <li class="one-user list-group-item"> <a href="/user/{{_id}}"> {{ name }} </a>, email: {{email}} </li>
     {{/each}}
   </ul>
   <div id="app" class="hidden">

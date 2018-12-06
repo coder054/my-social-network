@@ -6,7 +6,7 @@ $(function() {
 			let self = $(this)
 			let tweetId = self.data("idtweet")
 			let content = self.val()
-
+			if (content === "") return false
 			socket.emit("comment", { content, tweetId })
 			self.val("")
 			return false

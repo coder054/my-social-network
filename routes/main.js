@@ -20,9 +20,9 @@ router.get("/", async (req, res, next) => {
         .exec()
 
       let currentUserId = req.user._id
-      console.log("currentUserId", currentUserId)
+      // console.log("currentUserId", currentUserId)
       tweets.forEach(function(val, index) {
-        console.log(val.comments)
+        // console.log(val.comments)
 
         val.liked = false
         if (typeof val.usersLike === "undefined") {
@@ -44,7 +44,7 @@ router.get("/", async (req, res, next) => {
         }
       })
 
-      console.log("TWEETS", tweets)
+      // console.log("TWEETS", tweets)
       res.render("main/home", { tweets })
     } catch (error) {
       next(error)
