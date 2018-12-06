@@ -5,20 +5,24 @@ const Tweet = require("../models/tweet")
 
 router.get("/", async (req, res, next) => {
   if (req.user) {
-    console.log("type of req.user._id", typeof req.user._id)
     var listt = [req.user._id, ...req.user.following]
     try {
       let tweets = await Tweet.find({ owner: listt })
         .sort("-created")
         .populate("owner")
         .populate("usersLike")
+        .populate({
+          path: "comments",
+          // Get friends of friends - populate the 'friends' array for every friend
+          populate: { path: "userId" }
+        })
         .lean()
         .exec()
 
       let currentUserId = req.user._id
       console.log("currentUserId", currentUserId)
       tweets.forEach(function(val, index) {
-        console.log("val.usersLike", val.usersLike)
+        console.log(val.comments)
 
         val.liked = false
         if (typeof val.usersLike === "undefined") {
@@ -238,6 +242,36 @@ router.post("/unliketweet/:id", async (req, res, next) => {
   }
 
   res.json("unlike success")
+})
+
+// comment on a tweet
+router.post("/comment/:id", async (req, res, next) => {
+  let idCurrentUser = req.user._id
+  let idOfTweet = req.params.id
+
+  try {
+    let updatedUser = await User.update(
+      { _id: req.user._id },
+      {
+        $pull: {
+          likedTweets: idOfTweet._id
+        }
+      }
+    )
+
+    let updatedTweet = await Tweet.update(
+      { _id: idOfTweet },
+      {
+        $pull: {
+          usersLike: idCurrentUser
+        }
+      }
+    )
+  } catch (error) {
+    next(error)
+  }
+
+  res.json("add comment success")
 })
 
 module.exports = router

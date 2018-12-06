@@ -8,6 +8,7 @@ const TweetSchema = new Schema({
 		ref: "User"
 	},
 	usersLike: [{ type: Schema.Types.ObjectId, ref: "User" }],
+	comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
 	content: String,
 	created: {
 		type: Date,

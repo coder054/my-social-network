@@ -13,47 +13,7 @@
   <br />
   <br />
 
-  <div id="tweets">
-    {{#each tweets}}
-    <div class="media" id="tweet-{{_id}}">
-
-      {{#if isTweetOfCurrentUser}}
-      <span data-idtweet="{{_id}}" class="glyphicon glyphicon-remove remove-icon" aria-hidden="true"></span>
-      {{/if}}
-
-      <div class="media-left">
-        <a href="/user/{{owner._id}}">
-          <img class="media-object" src="{{ owner.photo }}" />
-        </a>
-      </div>
-      <div class="media-body">
-        <a href="/user/{{owner._id}}"><h5 class="media-heading">{{ owner.name }}</h5> </a>
-        <p> {{content}} </p>
-        <div class="likes-and-retweet-wrapper">
-          <span class="glyphicon glyphicon-retweet">  </span>
-
-          {{#if liked}}
-            <span data-idtweet="{{_id}}"" class="glyphicon glyphicon-heart liked">  </span>
-          {{else}}
-            <span data-idtweet="{{_id}}"" class="glyphicon glyphicon-heart-empty notlike">  </span>
-          {{/if}}
-        </div>
-      </div>
-    </div>
-    {{/each}}
-
-    <div class="media">
-      <div class="media-left">
-        <a href="/user/{{owner._id}}">
-          <img class="media-object" src="{{ userAllView.photo }}" />
-        </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading">{{ userAllView.name }}</h4>
-        <p> {{ userAllView.name }} Joined Twitter! </p>
-      </div>
-    </div>
-  </div>
+  {{> tweets}}
 </div>
 
 <ul class="hidden">

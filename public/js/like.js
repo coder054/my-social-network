@@ -1,7 +1,7 @@
 $(function() {
 	$(document).on("click", ".glyphicon-heart-empty.notlike", function(e) {
 		// e.preventDefault();
-		//
+
 		let self = $(this)
 		var tweetId = $(this).data("idtweet")
 		$.ajax({

@@ -1,6 +1,7 @@
 const async = require("async")
 const Tweet = require("../models/tweet")
 const User = require("../models/user")
+const Comment = require("../models/comment")
 
 const { promisify } = require("util")
 
@@ -37,6 +38,40 @@ module.exports = function(io) {
         io.emit("incomingTweet", { data, user, newTweetId: newTweet._id })
       } catch (error) {
         // console.log(error)
+      }
+    })
+
+    socket.on("comment", async function(data) {
+      try {
+        const comment = new Comment({
+          content: data.content,
+          tweetId: data.tweetId,
+          userId: user._id
+        })
+
+        let newComment = await comment.save()
+
+        let updatedUser = await User.update(
+          { _id: user._id },
+          {
+            $push: {
+              comments: newComment._id
+            }
+          }
+        )
+
+        let updatedTweet = await Tweet.update(
+          { _id: data.tweetId },
+          {
+            $push: {
+              comments: newComment._id
+            }
+          }
+        )
+
+        io.emit("incomingComment", { data, user, newCommentId: newComment._id })
+      } catch (error) {
+        console.log(error)
       }
     })
 

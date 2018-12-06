@@ -1,0 +1,31 @@
+<div class="comments-wrapper">
+  <div class="list-comments">
+
+  {{#each comments}}
+    <div class="one-comment">
+      <div class="image-user-comment">
+        <a href="/user/{{userId._id}}">
+          <img class="media-object" src="{{userId.photo}}">
+        </a>
+      </div>
+      <div class="benphai-comment">
+        <span class="ten-nguoi-comment"> <a href="/user/{{userId._id}}"> {{userId.name}} </a> </span>
+        <span class="noi-dung-comment"> {{content}} </span>
+      </div>
+    </div>   
+  {{/each}}
+
+  </div>
+  <div class="add-comment">
+    <div class="anh-nguoi-add-comment-wrapper"> 
+<img class="media-object" src="https://gravatar.com/avatar/0e17e62e483dff5216fc425eb08ea2d3?s=200&amp;d=retro" />
+    </div>
+    <div class="form-add-comment-wr">
+      <form class="add-comment">
+        <textarea data-idTweet="{{_id}}" row="1" placeholder="Write a comment..." 
+        class="comment-content"></textarea>
+        <br />
+      </form>
+    </div>
+  </div>
+</div>
