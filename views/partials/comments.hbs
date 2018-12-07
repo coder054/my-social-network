@@ -1,5 +1,5 @@
 <div class="comments-wrapper">
-  <div class="list-comments">
+  <div id="list-comments-{{_id}}" class="list-comments">
   
   {{#each comments}}
     <div class="one-comment">
@@ -23,8 +23,8 @@
     </div>
     <div class="form-add-comment-wr">
       <form class="add-comment">
-        <textarea data-idTweet="{{_id}}" row="1" placeholder="Write a comment..." 
-        class="comment-content"></textarea>
+        <textarea id="comment-content-{{_id}}" data-idTweet="{{_id}}" row="1" placeholder="Write a comment..." 
+        class="comment-content _{{_id}}"></textarea>
         <br />
       </form>
     </div>

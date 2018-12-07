@@ -5,6 +5,7 @@
 //   }
 // })
 $(function() {
+  scrollToComment()
   $("textarea").autoResize()
   var socket = io()
 
@@ -65,9 +66,9 @@ $(function() {
         <p> ${content} </p>
         <div class="likes-and-retweet-wrapper">
           
-          <span data-idtweet="${newTweetId}" class="glyphicon glyphicon-heart-empty notlike ${newTweetId}">  </span>
+          <span data-idtweet="${newTweetId}" class="glyphicon glyphicon-heart-empty notlike _${newTweetId}">  </span>
 
-          <span class="glyphicon glyphicon-comment">  </span>
+          <span data-idTweet="${newTweetId}" class="glyphicon glyphicon-comment _${newTweetId}">  </span>
         </div>
 
 
@@ -81,7 +82,7 @@ $(function() {
             <div class="form-add-comment-wr">
               <form class="add-comment">
                 <textarea data-idTweet="${newTweetId}" row="1" placeholder="Write a comment..." 
-                class="comment-content"></textarea>
+               id="comment-content-${newTweetId}" class="comment-content _${newTweetId}"></textarea>
                 <br />
               </form>
             </div>
@@ -104,7 +105,8 @@ $(function() {
   socket.on("incomingComment", function(data) {
     const {
       user: { _id, name, photo },
-      data: { content }
+      data: { content },
+      tweetId
     } = data
     let html = `
     <div class="one-comment">
@@ -122,12 +124,12 @@ $(function() {
       </div>
     </div>
     `
-    $(".list-comments").append(html)
+    $(`#list-comments-${tweetId}`).append(html)
   })
 
   socket.on("userLikedTweet", function(data) {
     const { numberofLike, tweetId, idOfUserLikeTweet } = data
-    let self = $(`.glyphicon-heart-empty.${tweetId}`)
+    let self = $(`.glyphicon-heart-empty._${tweetId}`)
 
     if (idOfUserLikeTweet === idOfCurrentLoginUser) {
       self.removeClass("notlike")
@@ -152,7 +154,7 @@ $(function() {
 
   socket.on("userUnLikedTweet", function(data) {
     const { numberofLike, tweetId, idOfUserUnLikeTweet } = data
-    let self = $(`.glyphicon-heart.${tweetId}`)
+    let self = $(`.glyphicon-heart._${tweetId}`)
     if (idOfUserUnLikeTweet === idOfCurrentLoginUser) {
       self.removeClass("glyphicon-heart")
       self.removeClass("liked")
@@ -174,3 +176,12 @@ $(function() {
     }
   })
 })
+
+function scrollToComment() {
+  $(".glyphicon-comment").click(function() {
+    let self = $(this)
+    let idtweet = self.data("idtweet")
+    let targetSelector = `#comment-content-${idtweet}`
+    $(targetSelector).focus()
+  })
+}

@@ -32,12 +32,12 @@
         <div class="likes-and-retweet-wrapper">
         
           {{#if liked}}
-            <span data-idtweet="{{_id}}" class="glyphicon glyphicon-heart liked {{_id}}">  </span>
+            <span data-idtweet="{{_id}}" class="glyphicon glyphicon-heart liked _{{_id}}">  </span>
           {{else}}
-            <span data-idtweet="{{_id}}" class="glyphicon glyphicon-heart-empty notlike {{_id}}">  </span>
+            <span data-idtweet="{{_id}}" class="glyphicon glyphicon-heart-empty notlike _{{_id}}">  </span>
           {{/if}}
 
-          <span class="glyphicon glyphicon-comment">  </span>
+          <span data-idtweet="{{_id}}" class="glyphicon glyphicon-comment _{{_id}}">  </span>
         </div>
 
         {{> comments userAllView=../userAllView}}  

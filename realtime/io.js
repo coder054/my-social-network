@@ -69,7 +69,12 @@ module.exports = function(io) {
           }
         )
 
-        io.emit("incomingComment", { data, user, newCommentId: newComment._id })
+        io.emit("incomingComment", {
+          data,
+          user,
+          newCommentId: newComment._id,
+          tweetId: data.tweetId
+        })
       } catch (error) {
         console.log(error)
       }
