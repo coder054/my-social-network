@@ -78,5 +78,13 @@ module.exports = function(io) {
     socket.on("delete-tweet", async function(data) {
       io.emit("delete-tweet-to-client", { data })
     })
+
+    socket.on("like-tweet", async function(data) {
+      io.emit("userLikedTweet", data)
+    })
+
+    socket.on("unlike-tweet", async function(data) {
+      io.emit("userUnLikedTweet", data)
+    })
   })
 }

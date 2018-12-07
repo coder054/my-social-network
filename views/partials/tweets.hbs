@@ -15,12 +15,26 @@
       <div class="media-body dropdown">
         <a href="/user/{{owner._id}}"><h5 class="media-heading">{{ owner.name }} </h5> </a>
         <p> {{content}} </p>
+
+      {{#if noLiked}}
+        <div class="number-of-like-on-tweet hidden"> 
+          <span class="glyphicon trangthailike"></span> 
+          <span class="number">  {{usersLike.length}} </span> 
+        </div>
+      {{else}}
+        <div class="number-of-like-on-tweet"> 
+          <span class="glyphicon trangthailike"></span> 
+          <span class="number">  {{usersLike.length}} </span> 
+        </div>
+      {{/if}}
+
+
         <div class="likes-and-retweet-wrapper">
-          
+        
           {{#if liked}}
-            <span data-idtweet="{{_id}}" class="glyphicon glyphicon-heart liked">  </span>
+            <span data-idtweet="{{_id}}" class="glyphicon glyphicon-heart liked {{_id}}">  </span>
           {{else}}
-            <span data-idtweet="{{_id}}" class="glyphicon glyphicon-heart-empty notlike">  </span>
+            <span data-idtweet="{{_id}}" class="glyphicon glyphicon-heart-empty notlike {{_id}}">  </span>
           {{/if}}
 
           <span class="glyphicon glyphicon-comment">  </span>

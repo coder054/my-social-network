@@ -23,6 +23,12 @@ router.get("/", async (req, res, next) => {
       // console.log("currentUserId", currentUserId)
       tweets.forEach(function(val, index) {
         // console.log(val.comments)
+        // console.log("typeof usersLike", typeof val.usersLike)
+        if (val.usersLike.length === 0) {
+          val.noLiked = true
+        } else {
+          val.noLiked = false
+        }
 
         val.liked = false
         if (typeof val.usersLike === "undefined") {
@@ -207,11 +213,19 @@ router.post("/liketweet/:id", async (req, res, next) => {
       },
       { $push: { usersLike: idCurrentUser } }
     )
+
+    let tweet = await Tweet.find({
+      _id: idOfTweet
+    })
+
+    res.json({
+      numberofLike: tweet[0].usersLike.length,
+      tweetId: idOfTweet,
+      idOfUserLikeTweet: idCurrentUser
+    })
   } catch (error) {
     next(error)
   }
-
-  res.json("like success")
 })
 
 // unlike a tweet
@@ -237,11 +251,19 @@ router.post("/unliketweet/:id", async (req, res, next) => {
         }
       }
     )
+
+    let tweet = await Tweet.find({
+      _id: idOfTweet
+    })
+
+    res.json({
+      numberofLike: tweet[0].usersLike.length,
+      tweetId: idOfTweet,
+      idOfUserUnLikeTweet: idCurrentUser
+    })
   } catch (error) {
     next(error)
   }
-
-  res.json("unlike success")
 })
 
 // comment on a tweet

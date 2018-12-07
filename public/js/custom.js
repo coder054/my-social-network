@@ -7,34 +7,16 @@
 $(function() {
   $("textarea").autoResize()
   var socket = io()
+
+  var idOfCurrentLoginUser = $("#idOfCurrentLoginUser").val()
+
   $("#sendTweet").submit(function() {
     var content = $("#tweet").val()
+    if (content === "") return false
     socket.emit("tweet", { content: content })
     $("#tweet").val("")
     return false
   })
-
-  // $(".comment-content").keydown(function(event) {
-  //   if (event.which === 13 && !event.shiftKey) {
-  //     let self = $(this)
-  //     let tweetId = self.data("idtweet")
-  //     let content = self.val()
-
-  //     socket.emit("comment", { content, tweetId })
-  //     self.val("")
-  //     return false
-  //   }
-  // })
-
-  // $(".add-comment").submit(function() {
-  //   let self = $(this)
-  //   let tweetId = self.data("idtweet")
-  //   let content = self.find(".comment-content").val()
-
-  //   socket.emit("comment", { content, tweetId })
-  //   self.find(".comment-content").val("")
-  //   return false
-  // })
 
   socket.on("incomingTweet", function(data) {
     // we take infomation of user that make tweet from data.user
@@ -46,7 +28,7 @@ $(function() {
     var listOfFollowing = $("#listOfFollowing")
       .val()
       .split(",")
-    var idOfCurrentLoginUser = $("#idOfCurrentLoginUser").val()
+
     // console.log("listOfFollowing", listOfFollowing)
 
     var inListOfFollowing = false
@@ -83,7 +65,7 @@ $(function() {
         <p> ${content} </p>
         <div class="likes-and-retweet-wrapper">
           
-          <span data-idtweet="${newTweetId}" class="glyphicon glyphicon-heart-empty notlike">  </span>
+          <span data-idtweet="${newTweetId}" class="glyphicon glyphicon-heart-empty notlike ${newTweetId}">  </span>
 
           <span class="glyphicon glyphicon-comment">  </span>
         </div>
@@ -141,5 +123,54 @@ $(function() {
     </div>
     `
     $(".list-comments").append(html)
+  })
+
+  socket.on("userLikedTweet", function(data) {
+    const { numberofLike, tweetId, idOfUserLikeTweet } = data
+    let self = $(`.glyphicon-heart-empty.${tweetId}`)
+
+    if (idOfUserLikeTweet === idOfCurrentLoginUser) {
+      self.removeClass("notlike")
+      self.removeClass("glyphicon-heart-empty")
+      self.addClass("glyphicon-heart")
+      self.addClass("liked")
+    } else {
+    }
+
+    let numberlikeHTML = $(`#tweet-${tweetId}`).find(".number")
+    let numberLikeWrapperHTML = $(`#tweet-${tweetId}`).find(
+      ".number-of-like-on-tweet"
+    )
+
+    numberlikeHTML.text(numberofLike.toString())
+    if (numberofLike == 0) {
+      numberLikeWrapperHTML.addClass("hidden")
+    } else {
+      numberLikeWrapperHTML.removeClass("hidden")
+    }
+  })
+
+  socket.on("userUnLikedTweet", function(data) {
+    const { numberofLike, tweetId, idOfUserUnLikeTweet } = data
+    let self = $(`.glyphicon-heart.${tweetId}`)
+    if (idOfUserUnLikeTweet === idOfCurrentLoginUser) {
+      self.removeClass("glyphicon-heart")
+      self.removeClass("liked")
+      self.addClass("notlike")
+      self.addClass("glyphicon-heart-empty")
+    } else {
+    }
+
+    let numberlikeHTML = $(`#tweet-${tweetId}`).find(".number")
+    let numberLikeWrapperHTML = $(`#tweet-${tweetId}`).find(
+      ".number-of-like-on-tweet"
+    )
+
+    numberlikeHTML.text(numberofLike.toString())
+    if (numberofLike == 0) {
+      numberLikeWrapperHTML.addClass("hidden")
+    } else {
+      numberLikeWrapperHTML.removeClass("hidden")
+    }
   })
 })

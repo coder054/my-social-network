@@ -67,7 +67,8 @@ body {
   background-color: #e6ecf0;
 }
 
-.glyphicon {
+
+.likes-and-retweet-wrapper .glyphicon {
   color: rgb(101, 119, 134);
   transition: all 0.3s ease;
   cursor: pointer;
@@ -213,7 +214,25 @@ span.remove-icon {
 
 textarea.comment-content{
   font-size: 13px;
-  
 }
 
+
+.number-of-like-on-tweet{
+  border-bottom: 1px solid #ddd;
+  padding: 6px 0;
+}
+
+.number-of-like-on-tweet .trangthailike{
+  background-position: 0px -761px;
+  background-image: url("https://static.xx.fbcdn.net/rsrc.php/v3/yG/r/S-tmaD99SDv.png");
+  width: 16px;
+  height: 16px;
+  transform: translateY(2px);
+  cursor: pointer;
+}
+
+.number-of-like-on-tweet .number{
+  font-size: 14px;
+  cursor: pointer;
+}
 
