@@ -24,7 +24,10 @@ router.get("/", async (req, res, next) => {
       tweets.forEach(function(val, index) {
         // console.log(val.comments)
         // console.log("typeof usersLike", typeof val.usersLike)
-        if (val.usersLike.length === 0) {
+        if (
+          typeof val.usersLike === "undefined" ||
+          val.usersLike.length === 0
+        ) {
           val.noLiked = true
         } else {
           val.noLiked = false
