@@ -59,14 +59,13 @@ body,
 html,
 p,
 div {
-/*   font-family: "Segoe UI", Arial, sans-serif; */
+  /*   font-family: "Segoe UI", Arial, sans-serif; */
   font-family: Helvetica, Arial, sans-serif;
 }
 
 body {
   background-color: #e6ecf0;
 }
-
 
 .likes-and-retweet-wrapper .glyphicon {
   color: rgb(101, 119, 134);
@@ -118,7 +117,8 @@ span.remove-icon {
   margin-bottom: 10px;
 }
 
-.image-user-comment img, .anh-nguoi-add-comment-wrapper img {
+.image-user-comment img,
+.anh-nguoi-add-comment-wrapper img {
   width: 32px;
   border-radius: 50%;
   transform: translateY(2px);
@@ -172,32 +172,32 @@ span.remove-icon {
   font-size: 15px;
 }
 
-.add-comment{
-  display: flex; 
+.add-comment {
+  display: flex;
   flex-direction: row;
-  justify-content: space-between; /* rat quan trong */
+  justify-content: space-between;
+  /* rat quan trong */
   flex-wrap: wrap;
 }
 
-.anh-nguoi-add-comment-wrapper{
-
+.anh-nguoi-add-comment-wrapper {
   flex: 1 1 35px;
 }
 
-.form-add-comment-wr{
+.form-add-comment-wr {
   flex: 1 1 440px;
 }
 
-.comment-content{
+.comment-content {
   border: 1px solid #ccc;
   border-radius: 18px;
   padding: 6px 10px;
   width: 100%;
   height: 40px;
-  background-color: #F2F3F5;
+  background-color: #f2f3f5;
 }
 
-.like-comment-wr{
+.like-comment-wr {
   width: 35px;
   cursor: pointer;
   position: absolute;
@@ -208,21 +208,20 @@ span.remove-icon {
   font-weight: 400;
 }
 
-.like-comment-wr:hover{
+.like-comment-wr:hover {
   text-decoration: underline;
 }
 
-textarea.comment-content{
+textarea.comment-content {
   font-size: 13px;
 }
 
-
-.number-of-like-on-tweet{
+.number-of-like-on-tweet {
   border-bottom: 1px solid #ddd;
   padding: 6px 0;
 }
 
-.number-of-like-on-tweet .trangthailike{
+.number-of-like-on-tweet .trangthailike {
   background-position: 0px -761px;
   background-image: url("https://static.xx.fbcdn.net/rsrc.php/v3/yG/r/S-tmaD99SDv.png");
   width: 16px;
@@ -231,8 +230,84 @@ textarea.comment-content{
   cursor: pointer;
 }
 
-.number-of-like-on-tweet .number{
+.number-of-like-on-tweet .number {
   font-size: 14px;
   cursor: pointer;
 }
 
+/*notification*/
+
+.anhdt-notification {
+  font-size: 13px;
+  position: fixed;
+  opacity: 0;
+  bottom: 80px;
+  left: 30px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  width: 260px;
+  white-space: nowrap;
+  background-color: rgba(255, 255, 255, 0.7);
+  transition: all 0.2s ease;
+  animation-name: nottification;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes nottification {
+  from {
+    bottom: 80px;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+.anhdt-notification:hover {
+  -webkit-box-shadow: 11px 10px 25px -19px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 11px 10px 25px -19px rgba(0, 0, 0, 0.75);
+  box-shadow: 11px 10px 25px -19px rgba(0, 0, 0, 0.75);
+}
+
+.anhdt-notification .left {
+  float: left;
+  margin-right: 10px;
+}
+
+.anhdt-notification img {
+  border-radius: 50%;
+  width: 30px;
+}
+
+.anhdt-notification .right .username {
+  font-weight: bold;
+}
+
+.anhdt-notification .right .not-type {
+  display: inline-block;
+
+  background-position: 0px -761px;
+  background-image: url("https://static.xx.fbcdn.net/rsrc.php/v3/yG/r/S-tmaD99SDv.png");
+  width: 16px;
+  height: 16px;
+  transform: translateY(3px);
+  cursor: pointer;
+  margin-right: 3px;
+}
+
+.anhdt-notification .time-content {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.anhdt-notification .noti-close {
+  color: #888;
+  font-weight: 300;
+  font-size: 22px;
+  /*   border: 1px solid red; */
+  transform: translate(0px, -5px) !important;
+}

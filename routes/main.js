@@ -2,6 +2,7 @@ const router = require("express").Router()
 
 const User = require("../models/user")
 const Tweet = require("../models/tweet")
+const Notification = require("../models/notifications")
 
 router.get("/", async (req, res, next) => {
   if (req.user) {
@@ -24,6 +25,7 @@ router.get("/", async (req, res, next) => {
       tweets.forEach(function(val, index) {
         // console.log(val.comments)
         // console.log("typeof usersLike", typeof val.usersLike)
+
         if (
           typeof val.usersLike === "undefined" ||
           val.usersLike.length === 0
@@ -221,10 +223,19 @@ router.post("/liketweet/:id", async (req, res, next) => {
       _id: idOfTweet
     })
 
+    let result = await Notification.create({
+      sourceUser: idCurrentUser,
+      targetUser: tweet[0].owner,
+      tweet: idOfTweet
+    })
+
     res.json({
       numberofLike: tweet[0].usersLike.length,
       tweetId: idOfTweet,
-      idOfUserLikeTweet: idCurrentUser
+      idOfUserLikeTweet: idCurrentUser,
+      nameOfUserLikeTweet: req.user.name,
+      photoOfUserLikeTweet: req.user.photo,
+      userThatHaveTweetLiked: tweet[0].owner
     })
   } catch (error) {
     next(error)
