@@ -4,8 +4,10 @@
 //     message: "Hello Vue!"
 //   }
 // })
+
 $(function() {
   scrollToComment()
+  updateTime()
   $("textarea").autoResize()
   var socket = io()
 
@@ -43,13 +45,15 @@ $(function() {
       const {
         user: { _id, photo, name },
         data: { content },
-        newTweetId
+        newTweetId,
+        dateFormated,
+        created
       } = data
 
       let removeTweet = ""
       if (idOfCurrentLoginUser == idOfUserMakeTweet) {
         removeTweet = `
-          <span data-idtweet="{{newTweetId}}" class="glyphicon glyphicon-remove remove-icon" aria-hidden="true"></span>
+          <span data-idtweet="${newTweetId}" class="glyphicon glyphicon-remove remove-icon" aria-hidden="true"></span>
         `
       }
 
@@ -63,6 +67,7 @@ $(function() {
       </div>
       <div class="media-body dropdown">
         <a href="/user/${_id}"><h5 class="media-heading">${name}</h5> </a>
+        <p class="tweet-time anhdt-time" data-dateString="${created}"> ${dateFormated} </p>
         <p> ${content} </p>
         <div class="likes-and-retweet-wrapper">
           
@@ -88,9 +93,6 @@ $(function() {
             </div>
           </div>
         </div>
-
-
-
 
       </div>
     </div>
@@ -128,7 +130,17 @@ $(function() {
   })
 
   socket.on("userLikedTweet", function(data) {
-    const { numberofLike, tweetId, idOfUserLikeTweet } = data
+    //current
+    const {
+      numberofLike,
+      tweetId,
+      idOfUserLikeTweet,
+      userThatHaveTweetLiked,
+      nameOfUserLikeTweet,
+      photoOfUserLikeTweet,
+      isLikingTweetOfMySelf
+    } = data
+
     let self = $(`.glyphicon-heart-empty._${tweetId}`)
 
     if (idOfUserLikeTweet === idOfCurrentLoginUser) {
@@ -137,6 +149,38 @@ $(function() {
       self.addClass("glyphicon-heart")
       self.addClass("liked")
     } else {
+    }
+
+    if (
+      userThatHaveTweetLiked === idOfCurrentLoginUser &&
+      !isLikingTweetOfMySelf
+    ) {
+      let html = `
+        <a class="anhdt-notification-wr" target="_blank" href="/tweet/${tweetId}">
+          <div class="anhdt-notification">
+            <button type="button" class="close noti-close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="left"> <img src="${photoOfUserLikeTweet}" alt="" /> </div>
+            <div class="right">
+              <div class="not-content"> <span class="username"> ${nameOfUserLikeTweet} </span> likes a tweet of you. </div>
+              <div class="not-time"> <span class="not-type">  </span> <span class="time-content"> a few seconds ago </span> </div>
+            </div>
+          </div>
+        </a>
+      `
+
+      $("body").append(html)
+      $(".noti-close").click(function() {
+        $(this)
+          .parent()
+          .remove()
+      })
+      setTimeout(function() {
+        $(".anhdt-notification").fadeOut(3000, function() {
+          $(".anhdt-notification").remove()
+        })
+      }, 10000)
     }
 
     let numberlikeHTML = $(`#tweet-${tweetId}`).find(".number")
@@ -160,7 +204,6 @@ $(function() {
       self.removeClass("liked")
       self.addClass("notlike")
       self.addClass("glyphicon-heart-empty")
-    } else {
     }
 
     let numberlikeHTML = $(`#tweet-${tweetId}`).find(".number")
@@ -184,4 +227,26 @@ function scrollToComment() {
     let targetSelector = `#comment-content-${idtweet}`
     $(targetSelector).focus()
   })
+}
+
+function updateTime() {
+  setInterval(function() {
+    let dateString
+    let formatedDate
+
+    $(".anhdt-time").each(function(index) {
+      $(this).text(getdateAndTimeFromDateString($(this).data("datestring")))
+    })
+  }, 2000)
+}
+
+function getdateAndTimeFromDateString(dateString) {
+  let diffInHour = moment().diff(dateString, "hour")
+  let result
+  if (diffInHour >= 24) {
+    result = moment(dateString).format("D MMMM YYYY [at] H:mm")
+  } else {
+    result = moment(dateString).fromNow()
+  }
+  return result
 }

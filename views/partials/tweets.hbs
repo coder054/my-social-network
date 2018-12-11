@@ -14,6 +14,7 @@
       </div>
       <div class="media-body dropdown">
         <a href="/user/{{owner._id}}"><h5 class="media-heading">{{ owner.name }} </h5> </a>
+        <p class="tweet-time anhdt-time" data-dateString="{{created}}"> {{dateFormated}} </p>
         <p> {{content}} </p>
 
       {{#if noLiked}}
@@ -47,6 +48,8 @@
     </div>
     {{/each}}
 
+
+    {{#if showjointweeter}}
     <div class="media">
       <div class="media-left">
         <a href="/user/{{userAllView._id}}">
@@ -58,5 +61,12 @@
         <p> {{ userAllView.name }} Joined Twitter! </p>
       </div>
     </div>
+    {{else}}
+      
+    {{/if}}
+
+
+
+
 
   </div>
