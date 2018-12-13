@@ -130,13 +130,13 @@ $(function() {
   })
 
   socket.on("userLikedTweet", function(data) {
-    //current
     const {
       numberofLike,
       tweetId,
       idOfUserLikeTweet,
       userThatHaveTweetLiked,
       nameOfUserLikeTweet,
+
       photoOfUserLikeTweet,
       isLikingTweetOfMySelf
     } = data

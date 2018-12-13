@@ -192,6 +192,7 @@ router.post("/liketweet/:id", async (req, res, next) => {
       idOfUserLikeTweet: idCurrentUser,
       nameOfUserLikeTweet: req.user.name,
       photoOfUserLikeTweet: req.user.photo,
+
       userThatHaveTweetLiked: tweet[0].owner,
       isLikingTweetOfMySelf
     })
