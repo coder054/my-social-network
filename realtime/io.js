@@ -76,11 +76,13 @@ module.exports = function(io) {
             }
           }
         )
-
+        //current
         io.emit("incomingComment", {
           data,
           user,
           newCommentId: newComment._id,
+          commentDate: getdateAndTimeFromDateString(newComment.created, true),
+          commentDateOriginal: newComment.created,
           tweetId: data.tweetId
         })
       } catch (error) {

@@ -100,15 +100,17 @@ $(function() {
       ///
 
       $("#tweets").prepend(html)
-    } else {
-    }
+    } else {}
   })
 
   socket.on("incomingComment", function(data) {
+    //current
     const {
       user: { _id, name, photo },
       data: { content },
-      tweetId
+      tweetId,
+      commentDate,
+      commentDateOriginal
     } = data
     let html = `
     <div class="one-comment">
@@ -120,10 +122,11 @@ $(function() {
       <div class="benphai-comment">
         <span class="ten-nguoi-comment"> <a href="/user/${_id}"> ${name} </a> </span>
         <span class="noi-dung-comment"> ${content} </span>
-        <div class="like-comment-wr">
-          <span> Like </span>
-        </div>
       </div>
+      <div data-datestring="${commentDateOriginal}" class="comment-time anhdt-time">
+        ${commentDate}
+      </div>
+
     </div>
     `
     $(`#list-comments-${tweetId}`).append(html)
@@ -148,8 +151,7 @@ $(function() {
       self.removeClass("glyphicon-heart-empty")
       self.addClass("glyphicon-heart")
       self.addClass("liked")
-    } else {
-    }
+    } else {}
 
     if (
       userThatHaveTweetLiked === idOfCurrentLoginUser &&
@@ -230,17 +232,25 @@ function scrollToComment() {
 }
 
 function updateTime() {
-  setInterval(function() {
-    let dateString
-    let formatedDate
 
-    $(".anhdt-time").each(function(index) {
+  setInterval(function() {
+    $(".anhdt-time.tweet-time").each(function(index) {
       $(this).text(getdateAndTimeFromDateString($(this).data("datestring")))
     })
-  }, 2000)
+  }, 60000)
+
+  $(".anhdt-time.comment-time").each(function(index) {
+    $(this).text(getdateAndTimeFromDateString($(this).data("datestring"), true))
+  })
+}, 60000)
+
 }
 
-function getdateAndTimeFromDateString(dateString) {
+const getdateAndTimeFromDateString = (dateString, isTimeOfComment = false) => {
+  if (isTimeOfComment) {
+    return moment(dateString).fromNow(true)
+  }
+
   let diffInHour = moment().diff(dateString, "hour")
   let result
   if (diffInHour >= 24) {

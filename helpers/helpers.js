@@ -71,7 +71,11 @@ const fetchTweetsByOwners = async (
 	}
 }
 
-const getdateAndTimeFromDateString = dateString => {
+const getdateAndTimeFromDateString = (dateString, isTimeOfComment = false) => {
+	if (isTimeOfComment) {
+		return moment(dateString).fromNow(true)
+	}
+
 	let diffInHour = moment().diff(dateString, "hour")
 	let result
 	if (diffInHour >= 24) {
