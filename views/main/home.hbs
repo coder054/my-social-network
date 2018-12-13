@@ -1,25 +1,10 @@
-<div class="starter-template" id="starter-template">
-  <div class="alert alert-success tweet-delete-success"> Tweet Deleted Successfully! </div>
-  <p class="lead">What is happening?</p>
-</div>
+{{> delete-tweet-notification}}
+
+{{> form-create-tweet}}
 
 <div class="col-md-6 col-md-offset-3">
-  <form id="sendTweet">
-    <input type="text" class="form-control" id="tweet">
-    <br />
-    <button class="btn btn-primary">Tweet</button>
-  </form>
-
-  <br />
-  <br />
-
   {{> tweets}}
 </div>
 
-<ul class="hidden">
-  {{#each userAllView.following}}
-  <li> {{this}} </li>
-  {{/each}}
-</ul>
-<input id="listOfFollowing" value="{{userAllView.following}}" type="hidden">
-<input id="idOfCurrentLoginUser" value="{{userAllView._id}}" type="hidden">
+
+{{> helpers}}

@@ -2,6 +2,7 @@ const async = require("async")
 const Tweet = require("../models/tweet")
 const User = require("../models/user")
 const Comment = require("../models/comment")
+const { getdateAndTimeFromDateString } = require("../helpers/helpers")
 
 const { promisify } = require("util")
 
@@ -25,6 +26,7 @@ module.exports = function(io) {
         })
 
         let newTweet = await tweet.save()
+        let dateFormated = getdateAndTimeFromDateString(newTweet.created)
 
         let updatedUser = await User.update(
           { _id: user._id },
@@ -35,7 +37,13 @@ module.exports = function(io) {
           }
         )
 
-        io.emit("incomingTweet", { data, user, newTweetId: newTweet._id })
+        io.emit("incomingTweet", {
+          data,
+          user,
+          newTweetId: newTweet._id,
+          dateFormated,
+          created: newTweet.created
+        })
       } catch (error) {
         // console.log(error)
       }

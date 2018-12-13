@@ -3,63 +3,14 @@ const router = require("express").Router()
 const User = require("../models/user")
 const Tweet = require("../models/tweet")
 const Notification = require("../models/notifications")
+const { fetchTweetsByOwners } = require("../helpers/helpers")
 
 router.get("/", async (req, res, next) => {
   if (req.user) {
-    var listt = [req.user._id, ...req.user.following]
-    try {
-      let tweets = await Tweet.find({ owner: listt })
-        .sort("-created")
-        .populate("owner")
-        .populate("usersLike")
-        .populate({
-          path: "comments",
-          // Get friends of friends - populate the 'friends' array for every friend
-          populate: { path: "userId" }
-        })
-        .lean()
-        .exec()
+    var owners = [req.user._id, ...req.user.following]
+    let tweets = await fetchTweetsByOwners(null, owners, req.user._id, next)
 
-      let currentUserId = req.user._id
-      // console.log("currentUserId", currentUserId)
-      tweets.forEach(function(val, index) {
-        // console.log(val.comments)
-        // console.log("typeof usersLike", typeof val.usersLike)
-
-        if (
-          typeof val.usersLike === "undefined" ||
-          val.usersLike.length === 0
-        ) {
-          val.noLiked = true
-        } else {
-          val.noLiked = false
-        }
-
-        val.liked = false
-        if (typeof val.usersLike === "undefined") {
-        } else {
-          val.usersLike.forEach(item => {
-            if (item._id === currentUserId || item._id.equals(currentUserId)) {
-              val.liked = true
-            }
-          })
-        }
-
-        if (
-          val.owner._id == currentUserId ||
-          val.owner._id.equals(currentUserId)
-        ) {
-          val.isTweetOfCurrentUser = true
-        } else {
-          val.isTweetOfCurrentUser = false
-        }
-      })
-
-      // console.log("TWEETS", tweets)
-      res.render("main/home", { tweets })
-    } catch (error) {
-      next(error)
-    }
+    res.render("main/home", { tweets, showjointweeter: true })
   } else {
     res.render("main/landing")
   }
@@ -67,14 +18,16 @@ router.get("/", async (req, res, next) => {
 
 router.get("/user/:id", async (req, res, next) => {
   try {
-    let tweets = await Tweet.find({ owner: req.params.id })
-      .sort("-created")
-      .populate("owner")
-      .exec()
+    let tweets = await fetchTweetsByOwners(
+      null,
+      req.params.id,
+      req.user._id,
+      next
+    )
+
     let user = await User.findById(req.params.id)
       .populate("following")
       .populate("followers")
-      .populate("tweet")
       .exec()
 
     let pageOfHimself = false
@@ -104,16 +57,12 @@ router.get("/user/:id", async (req, res, next) => {
 })
 
 router.get("/tweet/:id", async (req, res, next) => {
-  try {
-    let tweet = await Tweet.findById(req.params.id)
-      .populate("owner")
-      .exec() // lam sao de populate owner
+  let idOfTweet = req.params.id
+  let currentUserId = req.user._id
 
-    let user = await //  // console.log('tweet', tweet)
-    res.render("main/tweet", { tweet })
-  } catch (error) {
-    next(error)
-  }
+  let tweets = await fetchTweetsByOwners(idOfTweet, null, currentUserId, next) // call it tweets because we reuse template with route get("/")
+
+  res.render("main/tweet", { tweets })
 })
 
 router.post("/follow/:id", async (req, res, next) => {

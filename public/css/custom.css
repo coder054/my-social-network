@@ -125,8 +125,8 @@ span.remove-icon {
 }
 
 .one-comment {
-  margin-top: 10px;
-  margin-bottom: 28px;
+  margin-top: 12px;
+  margin-bottom: 15px;
   position: relative;
 }
 
@@ -214,6 +214,7 @@ span.remove-icon {
 
 textarea.comment-content {
   font-size: 13px;
+  margin-bottom: 7px;
 }
 
 .number-of-like-on-tweet {
@@ -310,4 +311,17 @@ textarea.comment-content {
   font-size: 22px;
   /*   border: 1px solid red; */
   transform: translate(0px, -5px) !important;
+}
+
+.tweet-button{
+  margin: 0 auto!important;
+  display: block!important;
+  
+}
+
+
+.tweet-time{
+  color: rgb(97, 103, 112);
+  font-size: 12px;
+  font-weight: normal;
 }
