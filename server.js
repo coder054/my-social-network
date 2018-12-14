@@ -2,7 +2,7 @@ const express = require("express")
 const morgan = require("morgan")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
-const hbs = require("hbs")
+var hbs = require("hbs")
 const expressHbs = require("express-handlebars")
 const session = require("express-session")
 const MongoStore = require("connect-mongo")(session)
@@ -18,6 +18,7 @@ const config = require("./config/secret")
 const app = express()
 const http = require("http").Server(app)
 const io = require("socket.io")(http)
+const { getdateAndTimeFromDateString } = require("./helpers/helpers")
 
 const sessionStore = new MongoStore({
   url: config.database,
@@ -35,6 +36,11 @@ io.use(
     fail: onAuthorizeFail
   })
 )
+
+hbs.handlebars.registerHelper("printx", function(string) {
+  var htmll = `<div class="text-success">${string}</div>`
+  return htmll
+})
 
 function onAuthorizeSuccess(data, accept) {
   //// console.log('Authorize Success!') // first
@@ -58,7 +64,23 @@ mongoose.connect(
 )
 mongoose.Promise = global.Promise
 
-app.engine(".hbs", expressHbs({ defaultLayout: "layout", extname: ".hbs" }))
+// app.engine(".hbs", expressHbs({ defaultLayout: "layout", extname: ".hbs" }))
+
+/////////////////////////
+var hbssss = expressHbs.create({
+  // Specify helpers which are only registered on this instance.
+  helpers: {
+    printTimeComment: function(string) {
+      let s = getdateAndTimeFromDateString(string, true)
+      return s
+    }
+  },
+  defaultLayout: "layout",
+  extname: ".hbs"
+})
+
+app.engine(".hbs", hbssss.engine)
+/////////////////////////
 app.set("view engine", "hbs")
 app.use(express.static(__dirname + "/public"))
 app.use(morgan("dev"))

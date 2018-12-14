@@ -12,6 +12,10 @@
         <span class="ten-nguoi-comment"> <a href="/user/{{userId._id}}"> {{userId.name}} </a> </span>
         <span class="noi-dung-comment"> {{content}} </span>
       </div>
+        {{!-- //current --}}
+      <div data-datestring="{{created}}" class="comment-time anhdt-time">
+        {{printTimeComment created}}
+      </div>
     </div>   
   {{/each}}
 
