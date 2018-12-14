@@ -100,11 +100,11 @@ $(function() {
       ///
 
       $("#tweets").prepend(html)
-    } else {}
+    } else {
+    }
   })
 
   socket.on("incomingComment", function(data) {
-    //current
     const {
       user: { _id, name, photo },
       data: { content },
@@ -151,7 +151,8 @@ $(function() {
       self.removeClass("glyphicon-heart-empty")
       self.addClass("glyphicon-heart")
       self.addClass("liked")
-    } else {}
+    } else {
+    }
 
     if (
       userThatHaveTweetLiked === idOfCurrentLoginUser &&
@@ -232,18 +233,17 @@ function scrollToComment() {
 }
 
 function updateTime() {
-
   setInterval(function() {
     $(".anhdt-time.tweet-time").each(function(index) {
       $(this).text(getdateAndTimeFromDateString($(this).data("datestring")))
     })
+
+    $(".anhdt-time.comment-time").each(function(index) {
+      $(this).text(
+        getdateAndTimeFromDateString($(this).data("datestring"), true)
+      )
+    })
   }, 60000)
-
-  $(".anhdt-time.comment-time").each(function(index) {
-    $(this).text(getdateAndTimeFromDateString($(this).data("datestring"), true))
-  })
-}, 60000)
-
 }
 
 const getdateAndTimeFromDateString = (dateString, isTimeOfComment = false) => {
