@@ -58,7 +58,7 @@ $(function() {
       }
 
       let html = `
-    <div class="media" id="tweet-{{_id}}">
+    <div class="media" id="tweet-${newTweetId}">
       ${removeTweet}
       <div class="media-left">
         <a href="/user/${_id}">
@@ -69,10 +69,12 @@ $(function() {
         <a href="/user/${_id}"><h5 class="media-heading">${name}</h5> </a>
         <p class="tweet-time anhdt-time" data-dateString="${created}"> ${dateFormated} </p>
         <p> ${content} </p>
+        <div data-idtweet="${newTweetId}" class="number-of-like-on-tweet hidden"> 
+          <span class="glyphicon trangthailike"></span> 
+          <span class="number">  0 </span> 
+        </div>
         <div class="likes-and-retweet-wrapper">
-          
           <span data-idtweet="${newTweetId}" class="glyphicon glyphicon-heart-empty notlike _${newTweetId}">  </span>
-
           <span data-idTweet="${newTweetId}" class="glyphicon glyphicon-comment _${newTweetId}">  </span>
         </div>
 
@@ -186,6 +188,7 @@ $(function() {
       }, 10000)
     }
 
+    // update number of likes
     let numberlikeHTML = $(`#tweet-${tweetId}`).find(".number")
     let numberLikeWrapperHTML = $(`#tweet-${tweetId}`).find(
       ".number-of-like-on-tweet"
