@@ -6,6 +6,7 @@
 // })
 
 $(function() {
+  mymodal()
   scrollToComment()
   updateTime()
   $("textarea").autoResize()
@@ -262,4 +263,30 @@ const getdateAndTimeFromDateString = (dateString, isTimeOfComment = false) => {
     result = moment(dateString).fromNow()
   }
   return result
+}
+
+function mymodal() {
+  var modal = document.querySelector("#modal")
+  var modalOverlay = document.querySelector("#modal-overlay")
+  var closeButton = document.querySelector("#close-button")
+  var openButton = document.querySelector("#open-button")
+
+  closeButton.addEventListener("click", function() {
+    $(".modal-content-main").empty()
+    $(".modal").removeClass("expanded")
+
+    setTimeout(function() {
+      modal.classList.toggle("closed")
+    }, 300)
+
+    setTimeout(function() {
+      modalOverlay.classList.toggle("closed")
+      $(".modal-contenttt-wr .spinner").removeClass("hidden")
+    }, 420)
+  })
+
+  openButton.addEventListener("click", function() {
+    modal.classList.toggle("closed")
+    modalOverlay.classList.toggle("closed")
+  })
 }

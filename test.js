@@ -8,3 +8,12 @@ console.log(moment().diff("2018-12-11T04:41:23.818Z", "hour"))
 // setInterval(function() {
 // 	console.log(1)
 // }, 2000)
+
+const user = { info: { address: "hanoi" } }
+
+let {
+	info: { addressss }
+} = user
+
+addressss = addressss || "vn"
+console.log(addressss)

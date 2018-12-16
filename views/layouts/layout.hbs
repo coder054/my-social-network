@@ -24,13 +24,36 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
 
     {{> navbar}}
-
+    <button id="open-button"> open-button </button>
     <div class="container">
 
         {{{ body }}}
 
     </div><!-- /.container -->
 
+
+    <div class="modal closed" id="modal">
+        <div class="anhdt-modal-header">
+            People liked this tweet
+            <button  id="close-button" type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-guts">
+
+        {{!-- //current --}}
+            <div class="modal-contenttt-wr">
+                <div class="spinner"> <img src="/images/Spinner-1.5s-46px.gif"> </div>
+                <div class="modal-content-main">
+                    
+                </div>
+            </div>
+        
+        </div>
+    </div>
+
+    <div class="modal-overlay closed" id="modal-overlay">
+    </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -45,6 +68,7 @@
     <script src="/js/deleteTweet.js"></script>
     <script src="/js/like.js"></script>
     <script src="/js/comment.js"></script>
+    <script src="/js/no-socket.js"></script>
 
 </body>
 

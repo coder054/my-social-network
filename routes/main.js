@@ -59,9 +59,7 @@ router.get("/user/:id", async (req, res, next) => {
 router.get("/tweet/:id", async (req, res, next) => {
   let idOfTweet = req.params.id
   let currentUserId = req.user._id
-
   let tweets = await fetchTweetsByOwners(idOfTweet, null, currentUserId, next) // call it tweets because we reuse template with route get("/")
-
   res.render("main/tweet", { tweets })
 })
 
@@ -267,6 +265,16 @@ router.post("/comment/:id", async (req, res, next) => {
   }
 
   res.json("add comment success")
+})
+
+router.get("/usersThatLikeTweet/:id", async (req, res, next) => {
+  //current
+  let idOfTweet = req.params.id
+  let tweets = await Tweet.findById(idOfTweet)
+    .populate("usersLike")
+    .exec()
+  console.log("TWEETSSSS", tweets)
+  res.json({ tweets })
 })
 
 module.exports = router
