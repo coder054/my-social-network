@@ -88,6 +88,7 @@ $(function() {
 
 				$(".modal-content-main").append(html)
 				$(".modal").addClass("expanded")
+				$(".anhdt-modal-header").removeClass("hidden")
 			},
 			error: function(data) {
 				// console.log(data)

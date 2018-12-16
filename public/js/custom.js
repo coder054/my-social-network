@@ -277,12 +277,13 @@ function mymodal() {
 
     setTimeout(function() {
       modal.classList.toggle("closed")
-    }, 300)
+    }, 240)
 
     setTimeout(function() {
+      $(".anhdt-modal-header").addClass("hidden")
       modalOverlay.classList.toggle("closed")
       $(".modal-contenttt-wr .spinner").removeClass("hidden")
-    }, 420)
+    }, 300)
   })
 
   openButton.addEventListener("click", function() {

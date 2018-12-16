@@ -24,7 +24,7 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
 
     {{> navbar}}
-    <button id="open-button"> open-button </button>
+    <button class="hidden" id="open-button"> open-button </button>
     <div class="container">
 
         {{{ body }}}
@@ -33,7 +33,7 @@
 
 
     <div class="modal closed" id="modal">
-        <div class="anhdt-modal-header">
+        <div class="anhdt-modal-header hidden">
             People liked this tweet
             <button  id="close-button" type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
