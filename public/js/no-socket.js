@@ -1,6 +1,5 @@
 $(function() {
 	$(document).on("click", ".number-of-like-on-tweet", function(e) {
-		//current
 		$("#open-button").click()
 		let self = $(this)
 		let tweetId = self.data("idtweet")

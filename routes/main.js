@@ -170,18 +170,21 @@ router.post("/liketweet/:id", async (req, res, next) => {
       _id: idOfTweet
     })
 
-    let result = await Notification.create({
-      sourceUser: idCurrentUser,
-      targetUser: tweet[0].owner,
-      tweet: idOfTweet
-    })
-
     let isLikingTweetOfMySelf = false
     if (
       idCurrentUser === tweet[0].owner ||
       idCurrentUser.equals(tweet[0].owner)
     ) {
       isLikingTweetOfMySelf = true
+    }
+
+    let notification
+    if (!isLikingTweetOfMySelf) {
+      notification = await Notification.create({
+        sourceUser: idCurrentUser,
+        targetUser: tweet[0].owner,
+        tweet: idOfTweet
+      })
     }
 
     res.json({
@@ -268,13 +271,27 @@ router.post("/comment/:id", async (req, res, next) => {
 })
 
 router.get("/usersThatLikeTweet/:id", async (req, res, next) => {
-  //current
   let idOfTweet = req.params.id
   let tweets = await Tweet.findById(idOfTweet)
     .populate("usersLike")
     .exec()
   console.log("TWEETSSSS", tweets)
   res.json({ tweets })
+})
+
+router.post("/liketweet-notification/:id", async (req, res, next) => {
+  // id of notification
+
+  Notification.update({ _id: req.params.id }, { $set: { showed: true } })
+  try {
+    await Notification.update(
+      { _id: req.params.id },
+      { $set: { showed: true } }
+    )
+    res.json({ success: true })
+  } catch (error) {
+    next(error)
+  }
 })
 
 module.exports = router

@@ -21,7 +21,10 @@ const NotificationSchema = new Schema({
 		ref: "Tweet"
 	},
 
-	showed: Boolean,
+	showed: {
+		type: Boolean,
+		default: false
+	},
 
 	created: {
 		type: Date,
