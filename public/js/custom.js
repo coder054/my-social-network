@@ -19,7 +19,9 @@ $(function() {
   $("textarea").autoResize()
   var socket = io()
 
-  var idOfCurrentLoginUser = $("#idOfCurrentLoginUser").val()
+  var idOfCurrentLoginUser = $("#idOfCurrentLoginUser")
+    .val()
+    .toString()
 
   $("#sendTweet").submit(function() {
     var content = $("#tweet").val()
@@ -343,6 +345,28 @@ $(function() {
     })
   })
 
+  $(document).on("click", ".seeall-noti a", function(e) {
+    console.log("aaaaaaaa")
+    var idOfCurrentLoginUser = $("#idOfCurrentLoginUser").val()
+    console.log(idOfCurrentLoginUser)
+    e.preventDefault()
+    //current
+    console.log("bbbbb")
+    let href = $(this).attr("href")
+    console.log(href)
+    $.ajax({
+      type: "POST",
+      url: "/notifications/setnonew-noti/" + idOfCurrentLoginUser,
+      success: function(data) {
+        console.log("data66666", data)
+        window.location.replace(href)
+      },
+      error: function(data) {
+        // console.log(data)
+      }
+    })
+  })
+
   $(document).on("click", "#anhdt-dropdown-menu li", function(e) {
     e.preventDefault()
 
@@ -355,7 +379,6 @@ $(function() {
       type: "POST",
       url: "/liketweet-notification/" + notificationid,
       success: function(data) {
-        console.log("data3333333333", data)
         if (data.success) {
           window.location.replace(href)
         } else {
@@ -423,6 +446,8 @@ function fetchNotifications() {
 
       $("#anhdt-dropdown-menu").empty()
       $("#anhdt-dropdown-menu").append(html)
+      $(".noti-page").empty()
+      $(".noti-page").append(html)
     },
     error: function(data) {
       // console.log(data)

@@ -520,7 +520,8 @@ ul#anhdt-dropdown-menu li {
   background-color: rgb(237, 242, 250);
 }
 
-ul#anhdt-dropdown-menu li:hover a {
+ul#anhdt-dropdown-menu li:hover a, 
+.noti-page li:hover a {
   background-image: linear-gradient(rgba(29, 33, 41, 0.04),
     rgba(29, 33, 41, 0.04));
   background-color: unset !important;
@@ -630,6 +631,48 @@ li.anhdt-dropdown button {
   font-size: 14px;
 }
 
+.seeall-noti a{
+
+  display: block;
+}
+
+
+
+
 ul#anhdt-dropdown-menu a {
   color: rgb(29, 33, 41);
 }
+
+
+.noti-page{
+  border: 1px solid #ddd;
+
+}
+
+.noti-page li{
+  list-style-type: none;
+
+}
+.noti-page li a{
+  display: inline-block;
+  width: 100%;
+  border: 1px solid #ddd;
+    padding: 15px;
+  color: #1a1a1a;
+}
+
+
+.noti-page img{
+  width: 40px;
+  border-radius: 50%;
+  margin-right: 20px;
+  transform: translateY(-10px);
+}
+
+
+.noti-page li.showed{
+  background-color: white;
+}
+
+
+

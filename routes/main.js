@@ -339,8 +339,26 @@ router.get("/notifications", async (req, res, next) => {
       .populate("tweet")
       .populate("sourceUser")
       .exec()
-    console.log("notificationsssssssss", notifications)
+
     res.json({ data: notifications })
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get("/show-notifications", async (req, res, next) => {
+  // id of notification
+  checkLogin(req)
+  try {
+    let notifications = await Notification.find({ targetUser: req.user._id })
+      .sort("-created")
+      .limit(100)
+      .populate("tweet")
+
+      .populate("sourceUser")
+      .exec()
+    console.log("notificationsssssssss", notifications)
+    res.render("main/notifications")
   } catch (error) {
     next(error)
   }
@@ -349,9 +367,11 @@ router.get("/notifications", async (req, res, next) => {
 router.post("/notifications/setnonew-noti/:id", async (req, res, next) => {
   // id of current login user
   checkLogin(req)
+
+  let idCurrentUser = req.params.id
   try {
     await NotificationState.update(
-      { user: req.params.id },
+      { user: idCurrentUser },
       { $set: { new_notification: false } }
     )
     res.json({ success: true })
