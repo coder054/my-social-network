@@ -5,6 +5,13 @@
 //   }
 // })
 
+// var url = $(location).attr("href")
+// alert("url", url)
+// var hostname = $("<a>")
+//   .prop("href", url)
+//   .prop("hostname")
+// alert("hostname", hostname)
+
 $(function() {
   mymodal()
   scrollToComment()
@@ -136,6 +143,7 @@ $(function() {
   })
 
   socket.on("userLikedTweet", function(data) {
+    //current
     const {
       numberofLike,
       tweetId,
@@ -144,7 +152,8 @@ $(function() {
       nameOfUserLikeTweet,
 
       photoOfUserLikeTweet,
-      isLikingTweetOfMySelf
+      isLikingTweetOfMySelf,
+      notificationId
     } = data
 
     let self = $(`.glyphicon-heart-empty._${tweetId}`)
@@ -161,8 +170,10 @@ $(function() {
       userThatHaveTweetLiked === idOfCurrentLoginUser &&
       !isLikingTweetOfMySelf
     ) {
+      updateNotificationStateClient()
+      fetchNotifications()
       let html = `
-        <a class="anhdt-notification-wr" target="_blank" href="/tweet/${tweetId}">
+        <a id="noti-${notificationId}" data-notificationid="${notificationId}" class="anhdt-notification-wr" target="_blank" href="/tweet/${tweetId}">
           <div class="anhdt-notification">
             <button type="button" class="close noti-close" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -289,5 +300,131 @@ function mymodal() {
   openButton.addEventListener("click", function() {
     modal.classList.toggle("closed")
     modalOverlay.classList.toggle("closed")
+  })
+}
+
+$(function() {
+  var socket = io()
+  updateNotificationStateClient()
+  fetchNotifications()
+  $(document).on("click", ".anhdt-notification-wr", function(e) {
+    // e.preventDefault();
+    let self = $(this)
+    let notificationId = self.data("notificationid")
+
+    $.ajax({
+      type: "POST",
+      url: "/liketweet-notification/" + notificationId,
+      success: function(data) {
+        console.log(data)
+        self.remove()
+      },
+      error: function(data) {
+        // console.log(data)
+      }
+    })
+  })
+
+  $(document).on("click", ".anhdt-dropdown", function(e) {
+    // e.preventDefault();
+    //current
+
+    $(".anhdt-dropdown-toggle").removeClass("new-noti")
+    $(".dropdown-wrapper").toggleClass("expanded")
+    var idOfCurrentLoginUser = $("#idOfCurrentLoginUser").val()
+    $.ajax({
+      type: "POST",
+      url: "/notifications/setnonew-noti/" + idOfCurrentLoginUser,
+      success: function(data) {},
+      error: function(data) {
+        // console.log(data)
+      }
+    })
+  })
+
+  $(document).on("click", "#anhdt-dropdown-menu li", function(e) {
+    e.preventDefault()
+
+    let self = $(this)
+    self.removeClass("showed")
+    let notificationid = self.data("notificationid")
+    let href = self.find("a").attr("href")
+    var idOfCurrentLoginUser = $("#idOfCurrentLoginUser").val()
+    $.ajax({
+      type: "POST",
+      url: "/liketweet-notification/" + notificationid,
+      success: function(data) {
+        console.log("data3333333333", data)
+        if (data.success) {
+          window.location.replace(href)
+        } else {
+          return
+        }
+      },
+      error: function(data) {
+        // console.log(data)
+      }
+    })
+  })
+})
+
+function updateNotificationStateClient() {
+  $.ajax({
+    type: "GET",
+    url: "/is-new-noti",
+    success: function(data) {
+      $(".number-of-noti").text(data.number_of_noti.toString())
+      if (data.new_notification === true) {
+        $(".anhdt-dropdown-toggle").addClass("new-noti")
+      } else {
+        $(".anhdt-dropdown-toggle").removeClass("new-noti")
+      }
+    },
+    error: function(data) {
+      // console.log(data)
+    }
+  })
+}
+
+function fetchNotifications() {
+  $.ajax({
+    type: "GET",
+    url: "/notifications",
+    success: function(data) {
+      console.log(data)
+      let notifications = data.data
+      let html = ""
+      for (let i = 0; i < notifications.length; i++) {
+        let noti = notifications[i]
+        let time = getdateAndTimeFromDateString(noti.created, true)
+        let showed = noti.showed
+        let tweetContent = noti.tweet.content.substring(0, 50)
+        if (showed) {
+          html += `<li data-notificationid="${noti._id}" class="showed">`
+        } else {
+          html += `<li data-notificationid="${noti._id}">`
+        }
+
+        html += `
+                  <a href="/tweet/${noti.tweet._id}"> 
+                    <img src="${noti.sourceUser.photo}">  
+                    <div class="noti-content">
+                      
+                      <div class="main-content-noti"> <span class="username"> ${
+                        noti.sourceUser.name
+                      } </span> likes your tweet: " ${tweetContent} ..." </div>
+                      <div class="time-noti"> <span class="iconlike"></span>  <span class="time-content-noti"> ${time} </span> </div>
+                    </div>
+                </a>
+              </li>
+        `
+      }
+
+      $("#anhdt-dropdown-menu").empty()
+      $("#anhdt-dropdown-menu").append(html)
+    },
+    error: function(data) {
+      // console.log(data)
+    }
   })
 }

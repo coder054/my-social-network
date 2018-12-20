@@ -86,5 +86,12 @@ const getdateAndTimeFromDateString = (dateString, isTimeOfComment = false) => {
 	return result
 }
 
+function checkLogin(req) {
+	if (!req.user._id) {
+		res.json({ info: "you need login first" })
+	}
+}
+
 module.exports.fetchTweetsByOwners = fetchTweetsByOwners
+module.exports.checkLogin = checkLogin
 module.exports.getdateAndTimeFromDateString = getdateAndTimeFromDateString

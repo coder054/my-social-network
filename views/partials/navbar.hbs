@@ -7,6 +7,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+
+
       <a class="navbar-brand" href="/">Twitter</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
@@ -14,6 +16,32 @@
         <li><a href="/all-users"> All Users </a></li>
         <li><a href="/user/{{ userAllView._id }}">{{ userAllView.name }}</a></li>
         <li><a href="/logout">Logout</a></li>
+
+
+        <li class="anhdt-dropdown">
+          <button class="btn btn-default anhdt-dropdown-toggle" type="button" id="anhdt-dropdownMenu1" data-toggle="anhdt-dropdown" aria-haspopup="true" aria-expanded="true">
+            <span class="glyphicon glyphicon-bell" aria-hidden="true" googl="true"></span>
+            <span class="number-of-noti"> 6 </span>
+          </button>
+          
+
+
+        <div class="dropdown-wrapper">
+          <ul id="anhdt-dropdown-menu" aria-labelledby="anhdt-dropdownMenu1">
+          
+
+          </ul>
+          <div class="seeall-noti">
+              <a href="/notifications"> 
+                  See All
+              </a>
+          </div>  
+        </div>
+
+
+
+
+        </li>
 
       {{/if }}
     </ul>
