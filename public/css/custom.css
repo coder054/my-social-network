@@ -34,7 +34,7 @@
   transform: translateX(-50%);
   transition: all 1.8s ease;
   pointer-events: none;
-  
+
 }
 
 .tweet-delete-success.show {
@@ -330,6 +330,7 @@ textarea.comment-content {
 .anhdt-notification-wr:hover {
   color: #1a1a1a;
 }
+
 
 .comment-time {
   transform: translateX(40px);

@@ -115,6 +115,7 @@ $(function() {
   })
 
   socket.on("incomingComment", function(data) {
+    //current
     const {
       user: { _id, name, photo },
       data: { content },

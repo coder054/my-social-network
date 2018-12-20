@@ -76,7 +76,7 @@ module.exports = function(io) {
             }
           }
         )
-
+        //current
         io.emit("incomingComment", {
           data,
           user,
